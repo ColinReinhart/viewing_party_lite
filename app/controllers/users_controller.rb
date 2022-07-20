@@ -1,16 +1,17 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
   def show
-    @user = User.find(params[:id])
+    require "pry"; binding.pry
   end
 
-  def new; end
+  def new
+    @user = User.new
+  end
 
   def create
-    user = User.create(user_params)
+    user = User.new(user_params)
     if user.save
-      redirect_to "/users/#{user.id}"
+      session[:user_id] = user.id
+      redirect_to "/dashboard"
     else
       redirect_to '/register'
       flash[:error] = user.errors.full_messages
@@ -21,12 +22,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def login_form
+  end
+
   def login
     user = User.find_by(email: params[:email])
     if user.authenticate(params[:password])
       session[:user_id] = user.id
       flash[:success] = "Welcome, #{user.name}!"
-      redirect_to "/users/#{user.id}"
+      redirect_to "/dashboard"
     else
       flash[:error] = "Incorrect Credentials"
       render :login_form

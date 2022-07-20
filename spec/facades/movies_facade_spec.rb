@@ -17,7 +17,7 @@ RSpec.describe MovieFacade do
 
       expect(x).to be_a(Array)
       expect(x.first.name).to eq('Titanic 666')
-      expect(x.last.name).to eq("Asia's Titanic")
+      expect(x.last.name).to eq("Titanic: The Final Word with James Cameron")
       expect(x.first.avg).to eq(5.5)
       expect(x.first.id).to eq(945_657)
     end

@@ -1,7 +1,10 @@
 <h1>Viewing Party</h1>
-
-<%= link_to "Create user", "/register" %><br>
-<%= link_to "Log In", '/login' %>
-<% @users.each do |user| %>
-<%= link_to user.name, "/users/#{user.id}" %><br>
-<%end%>
+<% if current_user %>
+ <p>You are logged in</p>
+ <%= link_to "Log Out", '/logout', method: :delete %>
+ <%= require "pry"; binding.pry %>
+ <%= link_to "See My Parties", "/users/#{session[:user_id]}" %>
+<% else %>
+  <%= link_to "Create user", "/register" %><br>
+  <%= link_to "Log In", '/login'%>
+<% end %>

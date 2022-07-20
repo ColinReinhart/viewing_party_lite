@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class PartiesController < ApplicationController
   def new
     @users = User.all
@@ -16,7 +14,7 @@ class PartiesController < ApplicationController
       params[:users].each do |user|
         PartyUser.create(user_id: user, party: party)
       end
-      redirect_to "/users/#{@user.id}"
+      redirect_to "/dashboard"
     end
   end
 

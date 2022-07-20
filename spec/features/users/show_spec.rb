@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe 'User Dashboard/Show Page', type: :feature do
   it 'has the users info' do
 
-    user1 = User.create(name: "Jim", email: 'jim1@mail.com', password: "dog", password_confirmation: "dog")
-    user2 = User.create(name: "Tommy", email: 'tommy1@mail.com', password: "dog", password_confirmation: "dog")
+    user1 = User.create!(name: "Jim", email: 'jim1@mail.com', password: "dog", password_confirmation: "dog")
+    user2 = User.create!(name: "Tommy", email: 'tommy1@mail.com', password: "dog", password_confirmation: "dog")
 
-    visit "/users/#{user1.id}"
+    visit "/dashboard"
 
     expect(page).to have_content("Jim's Dashboard")
     expect(page).not_to have_content("Tommy's Dashboard")
@@ -25,7 +25,7 @@ RSpec.describe 'User Dashboard/Show Page', type: :feature do
     partyuser3 = PartyUser.create!(party: party2, user: user1)
     partyuser4 = PartyUser.create!(party: party2, user: user2)
 
-    visit "/users/#{user2.id}"
+    visit "/dashboard"
 
     expect(page).to have_content('Viewing Parties')
 
@@ -46,7 +46,7 @@ RSpec.describe 'User Dashboard/Show Page', type: :feature do
     user1 = User.create(name: "Jim", email: 'jim3@mail.com', password: "dog", password_confirmation: "dog")
     user2 = User.create(name: "Tommy", email: 'tommy3@mail.com', password: "dog", password_confirmation: "dog")
 
-    visit "/users/#{user1.id}"
+    visit "/dashboard"
 
     expect(page).to have_button('Discover Movies')
   end
@@ -55,16 +55,16 @@ RSpec.describe 'User Dashboard/Show Page', type: :feature do
     user1 = User.create(name: "Jim", email: 'jim4@mail.com', password: "dog", password_confirmation: "dog")
     user2 = User.create(name: "Tommy", email: 'tommy4@mail.com', password: "dog", password_confirmation: "dog")
 
-    visit "/users/#{user1.id}"
+    visit "/dashboard"
     click_button 'Discover Movies'
 
-    expect(current_path).to eq("/users/#{user1.id}/discover")
+    expect(current_path).to eq("/users/#{current_user.id}/discover")
   end
 
   it "user can log in" do
     user = User.create!(name: "Colin Reinhart", email: "colin@email.com", password: "easypw")
 
-    visit '/'
+    visit root_path
     click_link "Log In"
     expect(current_path).to eq('/login')
 
@@ -78,7 +78,7 @@ RSpec.describe 'User Dashboard/Show Page', type: :feature do
 
   it "cannot login with bad credentials" do
     user = User.create!(name: "Colin Reinhart", email: "colin@email.com", password: "easypw")
-    visit '/'
+    visit root_path
     click_link "Log In"
     expect(current_path).to eq('/login')
 
